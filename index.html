@@ -1,0 +1,80 @@
+sql
+-- Book Categories
+CREATE TABLE Category (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL
+);
+
+-- Book Information
+CREATE TABLE Book (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255),
+    isbn VARCHAR(20),
+    price DECIMAL(10, 2),
+    author VARCHAR(255),
+    publisher VARCHAR(255),
+    year INT,
+    description TEXT,
+    image_path VARCHAR(255),
+    category_id INT,
+    stock INT,
+    FOREIGN KEY (category_id) REFERENCES Category(id)
+);
+
+-- Admin User
+CREATE TABLE Admin (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50),
+    password VARCHAR(255), -- hashed
+    full_name VARCHAR(100)
+);
+
+-- Orders
+CREATE TABLE Orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Order Details
+CREATE TABLE OrderDetail (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    book_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES Orders(id),
+    FOREIGN KEY (book_id) REFERENCES Book(id)
+);
+sql
+Client:
+[Home] → [Book List (Category)] → [Book Details] → [Add to Cart] → [Shopping Cart] → [Checkout] → [Thank You]
+
+Admin:
+[/admin/login] → [Admin Dashboard]
+    └── View/Add Books
+    └── View Inventory
+    └── View Orders
+    └── Logout
+    
+    /OnlineBookstore
+  ├── /src
+  │    ├── /servlets
+  │    ├── /models
+  │    ├── /dao
+  │    ├── /webservices
+  ├── /web
+  │    ├── /images
+  │    ├── /jsp
+  │         ├── home.jsp
+  │         ├── bookList.jsp
+  │         ├── bookDetail.jsp
+  │         ├── cart.jsp
+  │         ├── checkout.jsp
+  │         ├── thankyou.jsp
+  │         ├── /admin
+  │               ├── login.jsp
+  │               ├── dashboard.jsp
+  │               ├── addBook.jsp
+  │               ├── viewBooks.jsp
+  │               ├── inventory.jsp
+  ├── /WEB-INF
+  │    ├── web.xml
